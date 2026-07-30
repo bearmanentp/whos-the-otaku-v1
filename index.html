@@ -81,26 +81,91 @@
 
                 <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800 space-y-2">
                     <h2 class="font-bold text-pink-300 flex items-center gap-2 text-base">
-                        <i class="fa-solid fa-clock text-pink-400"></i> 주요 마감 기한
+                        <i class="fa-solid fa-clock text-pink-400"></i> 주요 제출 및 심사 안내
                     </h2>
                     <ul class="space-y-1 text-slate-300">
-                        <li class="flex justify-between"><span>신청 마감:</span> <span class="font-semibold text-rose-400">8월 6일 00시 00분</span></li>
-                        <li class="flex justify-between"><span>통과 안내 마감:</span> <span class="font-semibold text-purple-300">8월 6일 15시 30분</span></li>
-                        <li class="flex justify-between"><span>버스 제출 마감:</span> <span class="font-semibold text-cyan-300">8월 8일 17시 30분</span></li>
+                        <li class="flex justify-between"><span>신청 마감:</span> <span class="font-semibold text-rose-400">8월 6일 00:00</span></li>
+                        <li class="flex justify-between"><span>통과 안내:</span> <span class="font-semibold text-purple-300">웹사이트 (필요시 개인 DM)</span></li>
+                        <li class="flex justify-between"><span>통과자 버스 제출:</span> <span class="font-semibold text-cyan-300">8월 8일 17:30까지 (곰돌맨 DM)</span></li>
                     </ul>
                 </div>
             </div>
 
-            <!-- AI 자동 심사 & 합격 간주 규정 안내 -->
+            <!-- AI & 곰돌맨 심사 및 통과작 심사 방식 안내 -->
             <div class="bg-gradient-to-r from-indigo-950/70 via-purple-900/50 to-slate-900/80 border-2 border-purple-500/50 rounded-2xl p-4 sm:p-5 mb-6 text-xs sm:text-sm space-y-2 shadow-lg">
                 <div class="flex items-center gap-2 text-amber-300 font-bold text-sm sm:text-base">
-                    <i class="fa-solid fa-robot text-purple-400 text-lg"></i>
-                    <span>🤖 AI 자동 심사 및 최종 합격 간주 규정</span>
+                    <i class="fa-solid fa-clipboard-check text-purple-400 text-lg"></i>
+                    <span>🔍 신청서 & 통과작 심사 방식 안내</span>
                 </div>
                 <p class="text-slate-200 leading-relaxed">
-                    신청서 제출 즉시 AI가 1차 심사를 진행하여 디스코드 DM과 웹 화면으로 안내합니다.<br>
-                    <strong class="text-amber-300 font-semibold">8월 6일 15:30까지 주관자의 별도 수동 연락이 없으면 본 AI 심사 결과가 최종 확정됩니다.</strong>
+                    • <strong>신청서 1차/2차 심사:</strong> AI 자동 심사 및 <strong>곰돌맨의 개인 심사</strong>로 진행됩니다.<br>
+                    • <strong>통과작(본선) 심사:</strong> 대회 당일 현장 <strong>체험자 및 관객들</strong>의 평가로 최종 순위가 결정됩니다.<br>
+                    • <strong>통과 결과 확인:</strong> 본 웹사이트에서 로그인 후 직접 확인하실 수 있으며, 필요 시 개인 DM이 발송될 수 있습니다.
                 </p>
+            </div>
+
+            <!-- 🏆 시상 내역 (1등, 2등, 3등) -->
+            <div class="mb-6 space-y-3">
+                <h2 class="font-bold text-amber-300 text-base sm:text-lg flex items-center gap-2">
+                    <i class="fa-solid fa-trophy text-amber-400"></i> 대회 시상 내역 (Prizes)
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <!-- 1등상 -->
+                    <div class="bg-gradient-to-b from-amber-950/80 to-slate-900/90 p-4 rounded-2xl border-2 border-amber-400/60 shadow-lg text-center relative overflow-hidden">
+                        <div class="absolute -right-3 -top-3 text-amber-400/10 text-6xl font-black">1</div>
+                        <div class="w-10 h-10 mx-auto mb-2 rounded-full bg-amber-400/20 flex items-center justify-center text-amber-300 text-xl font-black border border-amber-400/50">
+                            🥇
+                        </div>
+                        <h3 class="font-black text-amber-300 text-base mb-1">1등상 (대상)</h3>
+                        <p class="text-xs text-amber-100/80 font-medium">최고의 덕후 버스</p>
+                        <div class="mt-2 text-xs font-bold text-amber-200 bg-amber-950/90 py-2 px-2 rounded-lg border border-amber-500/40">
+                            🎁 출전 차량 <span class="text-amber-300 font-extrabold">슬롯 무료 등록</span>
+                        </div>
+                    </div>
+
+                    <!-- 2등상 -->
+                    <div class="bg-gradient-to-b from-slate-800/80 to-slate-900/90 p-4 rounded-2xl border border-slate-400/60 shadow-lg text-center relative overflow-hidden">
+                        <div class="absolute -right-3 -top-3 text-slate-400/10 text-6xl font-black">2</div>
+                        <div class="w-10 h-10 mx-auto mb-2 rounded-full bg-slate-400/20 flex items-center justify-center text-slate-300 text-xl font-black border border-slate-400/50">
+                            🥈
+                        </div>
+                        <h3 class="font-black text-slate-200 text-base mb-1">2등상 (우수상)</h3>
+                        <p class="text-xs text-slate-300 font-medium">열정 넘치는 연출</p>
+                        <div class="mt-2 text-xs font-bold text-slate-200 bg-slate-950/90 py-2 px-2 rounded-lg border border-slate-600">
+                            🎁 출전 차량 등록 <span class="text-slate-200 font-extrabold">슬롯 50% 할인</span>
+                        </div>
+                    </div>
+
+                    <!-- 3등상 -->
+                    <div class="bg-gradient-to-b from-amber-950/40 to-slate-900/90 p-4 rounded-2xl border border-amber-700/50 shadow-lg text-center relative overflow-hidden">
+                        <div class="absolute -right-3 -top-3 text-amber-700/10 text-6xl font-black">3</div>
+                        <div class="w-10 h-10 mx-auto mb-2 rounded-full bg-amber-700/20 flex items-center justify-center text-amber-500 text-xl font-black border border-amber-700/50">
+                            🥉
+                        </div>
+                        <h3 class="font-black text-amber-400 text-base mb-1">3등상 (장려상)</h3>
+                        <p class="text-xs text-slate-300 font-medium">독창적인 디자인</p>
+                        <div class="mt-2 text-xs font-bold text-amber-300/90 bg-slate-950/90 py-2 px-2 rounded-lg border border-amber-800">
+                            🎁 출전 차량 등록 <span class="text-amber-300 font-extrabold">슬롯 25% 할인</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 🚨 대회 참가 필수 주의사항 -->
+            <div class="bg-rose-950/40 border border-rose-500/40 rounded-2xl p-4 sm:p-5 space-y-3">
+                <h2 class="font-bold text-rose-300 text-sm sm:text-base flex items-center gap-2">
+                    <i class="fa-solid fa-triangle-exclamation text-rose-400 text-lg"></i> 대회 참가 필수 주의사항 (Precautions)
+                </h2>
+                <ul class="space-y-2 text-xs text-slate-300 leading-relaxed list-disc list-inside">
+                    <li><strong class="text-rose-200">차량 직접 준비:</strong> 출전 차량은 참가자가 직접 구하셔서 작업을 진행해 주셔야 합니다.</li>
+                    <li><strong class="text-rose-200">로블록스 제재 에셋 사용 금지:</strong> 로블록스 규정상 경고 또는 제재를 받거나 불법적인 에셋, 텍스처, 모델링은 사용이 불가능합니다.</li>
+                    <li><strong class="text-rose-200">주제 제한:</strong> 선정적이거나 타인에게 불쾌감을 주는 주제는 참여가 엄격히 제한됩니다.</li>
+                    <li><strong class="text-rose-200">행사 해설 수칙:</strong> 전시회 단계에서는 해설이 자유(선택)이나, <span class="text-amber-300 font-bold">시승식 및 페임랩 진행 시에는 본인(또는 팀원)의 직접 해설이 반드시 이루어져야 합니다.</span></li>
+                    <li><strong class="text-rose-200">팀 참가 규정:</strong> 팀으로 참여가 가능하며, <span class="text-purple-300 font-bold">팀 인원은 2~3명으로 제한</span>됩니다.</li>
+                    <li><strong class="text-rose-200">시승식 코스 필수 규정:</strong> 시승식 코스는 반드시 <span class="text-amber-300 font-bold">기점(출발지)과 종점(도착지)이 모두 '동천체육관'</span>이어야 합니다.</li>
+                    <li><strong class="text-rose-200">통과자 버스 파일 제출 마감:</strong> 통과자 버스 최종 파일 제출은 <span class="text-cyan-300 font-bold">2026년 8월 8일 17:30까지 곰돌맨 DM</span>으로 제출해 주세요.</li>
+                    <li><strong class="text-rose-200">통과 안내:</strong> 본 웹사이트에서 통과 여부를 직접 확인하실 수 있으며, 추가적으로 개인 DM이 발송될 수 있습니다.</li>
+                </ul>
             </div>
         </div>
 
@@ -418,7 +483,7 @@
     <!-- 스크립트 로직 -->
     <script>
         // 백엔드 Google Apps Script Web App URL (배포 후 교체)
-        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzPJ4LvjirFqnGReLC_b-1odiafsjryvgNacwhZx5gDQKfZkkTZiGEl6V8lrrSxV1cg/exec";
+        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxRlnc39dPzTrc45sLy4iV9pBqECVYspZKoRLEC5Zf9rQtsi4AYsBA4OsacwjAW8o2m/exec";
         
         // Discord OAuth2 Config
         const DISCORD_CLIENT_ID = "1476089479709069426";
