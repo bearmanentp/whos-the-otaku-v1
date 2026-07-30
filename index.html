@@ -352,7 +352,7 @@
     <!-- 스크립트 로직 -->
     <script>
         // 백엔드 Google Apps Script Web App URL (배포 후 교체)
-        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxBsOgu120RmG6qYBnl4od5w47qlLXqcWb0jefG0q1ZYhDobQW_8cq6cbaFxWgquYQr/exec";
+        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxD0Au8rfi6GRNEf0pKdlTU7AecVK8bCr5QlZi5Udwk4l2dsuPLd6sWl_ETAyeL2eF5/exec";
         
         // Discord OAuth2 Config
         const DISCORD_CLIENT_ID = "1476089479709069426";
@@ -516,7 +516,7 @@
             btnSubmit.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> AI 심사 및 신청서 제출 중...`;
 
             statusMsg.className = "p-4 rounded-xl text-center font-bold text-sm bg-purple-900/60 text-purple-200 border border-purple-700 block";
-            statusMsg.innerHTML = "신청서를 처리하고 AI 심사를 진행 중입니다. 잠시만 기다려주세요...";
+            statusMsg.innerHTML = "신청서를 처리하고 AI 심사 및 내용 요약을 진행 중입니다. 잠시만 기다려주세요...";
 
             try {
                 // 이미지 Base64 변환
@@ -574,11 +574,12 @@
                             <span class="px-3 py-1 rounded-full text-xs font-bold ${passBadgeClass}">AI 심사: ${passText} (${result.aiScore}점)</span>
                         </div>
                         <div class="text-xs sm:text-sm text-slate-300 space-y-2">
+                            <p class="bg-slate-800/80 p-3 rounded-xl border border-slate-700"><strong>📋 AI 제출 핵심 요약:</strong><br><span class="text-slate-200 mt-1 inline-block">${result.aiSummary || '정상 접수되었습니다.'}</span></p>
                             <p><strong>🤖 AI 심사평:</strong> ${result.aiFeedback || '정상 접수되었습니다.'}</p>
                             <div class="p-3 bg-indigo-950/80 border border-indigo-700/60 rounded-xl text-indigo-200 text-xs space-y-1">
                                 <p class="font-bold text-amber-300"><i class="fa-solid fa-triangle-exclamation mr-1"></i> [최종 합격 간주 및 안내사항]</p>
-                                <p>통과 여부 안내 마감일(8월 6일 15:30)까지 주관자의 수동 심사 내용이 DM으로 발송되지 않을 경우, 본 AI 심사 결과가 최종으로 합격/확정 간주됩니다.</p>
-                                <p class="text-cyan-300">현재 AI 심사 결과는 거의 변치 않으니, 작업을 미리 시작하시거나 완성된 버스 차량 스크린샷을 지금 편하게 제출해 주시기 바랍니다.</p>
+                                <p>제출해 주신 내용에 규정 위반 등 특별한 문제가 발생하는 경우에만 주관자가 개별적으로 추가 DM 연락을 드립니다.</p>
+                                <p class="text-cyan-300">별도의 문제 연락이 없을 경우 本 AI 심사 결과가 최종 합격으로 확정되오니, 버스 제작을 편하게 미리 진행해 주시기 바랍니다.</p>
                             </div>
                         </div>
                     `;
