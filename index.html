@@ -91,14 +91,30 @@
                 </div>
             </div>
 
+            <!-- AI 자동 심사 & 합격 간주 규정 특별 안내 박스 -->
+            <div class="bg-gradient-to-r from-indigo-950/70 via-purple-900/50 to-slate-900/80 border-2 border-purple-500/50 rounded-2xl p-4 sm:p-5 mb-6 text-xs sm:text-sm space-y-2 shadow-lg">
+                <div class="flex items-center gap-2 text-amber-300 font-bold text-sm sm:text-base">
+                    <i class="fa-solid fa-robot text-purple-400 text-lg"></i>
+                    <span>🤖 AI 자동 심사 및 최종 합격 간주 규정</span>
+                </div>
+                <p class="text-slate-200 leading-relaxed">
+                    신청서 제출 즉시 AI가 자동으로 1차 심사(합격/불합격)를 진행하여 Discord DM 및 화면에 안내해 드립니다.<br>
+                    <strong class="text-amber-300 font-semibold">통과 여부 안내 마감일(8월 6일 15:30)까지 주관자의 별도 수동 심사 DM이 발송되지 않을 경우, 본 AI 심사 결과가 최종 합격으로 자동 확정됩니다.</strong>
+                </p>
+                <div class="p-2.5 bg-purple-950/60 rounded-xl border border-purple-700/50 text-purple-200 text-xs flex items-center gap-2">
+                    <i class="fa-solid fa-circle-info text-cyan-400 text-sm"></i>
+                    <span>현재 AI 심사 결과는 거의 변치 않으니, AI 합격 결과를 받으신 분들은 안심하고 작업을 미리 시작하시거나 꾸민 차량을 지금 편하게 제출해 주시기 바랍니다.</span>
+                </div>
+            </div>
+
             <!-- 시상 및 유의사항 -->
             <div class="bg-gradient-to-r from-purple-950/40 to-slate-900/60 border border-purple-800/40 rounded-xl p-4 text-xs sm:text-sm space-y-3">
                 <div>
                     <h3 class="font-bold text-amber-300 text-sm mb-1"><i class="fa-solid fa-trophy mr-1"></i> 우승 시상 혜택</h3>
                     <p class="text-slate-300">
                         <strong class="text-amber-400">1등:</strong> 자신의 참가 차량 슬롯 무료 등록 / 
-                        <strong class="text-slate-300">2등:</strong> 자신의 참가 차량 등록 슬롯 50% 할인 / 
-                        <strong class="text-amber-600">3등:</strong> 자신의 참가 차량 등록 슬롯 25% 할인
+                        <strong class="text-slate-300">2등:</strong> 자신의 참가 차량 슬롯 등록 50% 할인 / 
+                        <strong class="text-amber-600">3등:</strong> 자신의 참가 차량 슬롯 등록 25% 할인
                     </p>
                 </div>
                 <div class="border-t border-slate-700/50 pt-2 text-slate-400 space-y-1">
@@ -265,8 +281,8 @@
                         시승식 코스 루트 설명 <span class="text-rose-400">*</span>
                     </label>
                     <textarea id="testDriveRoute" name="testDriveRoute" rows="3" required placeholder="기점 출발 ➔ 회차지 경유 ➔ 무조건 종점은 동천체육관으로 끝나는 코스 루트를 작성해 주세요." class="w-full p-3.5 rounded-xl glass-input"></textarea>
-                    <p class="text-xs text-emerald-400 mt-1 flex items-center gap-1">
-                        <i class="fa-solid fa-circle-info"></i> 시승식은 <strong>울산 버스 운전 시뮬레이터 본맵</strong>에서 진행되며, <strong>반드시 기점과 종점은 동천체육관</strong>이어야 합니다. (AI 심사 반영)
+                    <p class="text-xs text-rose-400 mt-1 flex items-center gap-1 font-bold">
+                        <i class="fa-solid fa-triangle-exclamation"></i> <strong>필수 규정:</strong> 시승식 코스의 종점은 <strong>무조건 '동천체육관'</strong>이어야 합니다. 종점이 '동천체육관'으로 지정되지 않은 경우 <strong>AI 심사 시 즉시 탈락 (0점 및 불합격)</strong> 처리됩니다.
                     </p>
                 </div>
             </div>
@@ -333,7 +349,7 @@
     <!-- 스크립트 로직 -->
     <script>
         // 백엔드 Google Apps Script Web App URL (배포 후 교체)
-        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx86GQHsEmDyLC6Ljsu5it8cmC84yCD7pTEjIfe6D3SaEsXoCWGwRHp-uat2POIH8c/exec";
+        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwYD64nsyEgfQbBSoVsqtZKoKF_YymalBo1Fqcb8p789pFljax9PuaI0-qKTTY3RmMw/exec";
         
         // Discord OAuth2 Config
         const DISCORD_CLIENT_ID = "1476089479709069426";
@@ -542,9 +558,28 @@
                 const result = await response.json();
 
                 if (result.success) {
-                    statusMsg.className = "p-4 rounded-xl text-center font-bold text-sm bg-emerald-900/80 text-emerald-200 border border-emerald-700 block";
-                    statusMsg.innerHTML = `<i class="fa-solid fa-circle-check text-lg mr-2"></i> 제1회 참가 신청이 성공적으로 완료되었습니다! (AI 심사 점수: ${result.aiScore}점)`;
-                    btnSubmit.innerHTML = `<i class="fa-solid fa-check mr-2"></i> 제출 완료`;
+                    const passText = result.aiPassStatus || (result.aiScore >= 70 ? "합격" : "불합격");
+                    const passBadgeClass = passText === "합격" ? "bg-emerald-500 text-white" : "bg-rose-500 text-white";
+
+                    statusMsg.className = "p-5 rounded-2xl text-left font-normal text-sm bg-slate-900/90 text-slate-100 border-2 border-purple-500 shadow-2xl block space-y-3";
+                    statusMsg.innerHTML = `
+                        <div class="flex items-center justify-between border-b border-slate-700 pb-3">
+                            <div class="flex items-center gap-2 font-bold text-base text-purple-300">
+                                <i class="fa-solid fa-circle-check text-emerald-400 text-xl"></i>
+                                <span>제1회 참가 신청서 제출 완료</span>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold ${passBadgeClass}">AI 심사: ${passText} (${result.aiScore}점)</span>
+                        </div>
+                        <div class="text-xs sm:text-sm text-slate-300 space-y-2">
+                            <p><strong>🤖 AI 심사평:</strong> ${result.aiFeedback || '정상 접수되었습니다.'}</p>
+                            <div class="p-3 bg-indigo-950/80 border border-indigo-700/60 rounded-xl text-indigo-200 text-xs space-y-1">
+                                <p class="font-bold text-amber-300"><i class="fa-solid fa-triangle-exclamation mr-1"></i> [최종 합격 간주 및 안내사항]</p>
+                                <p>통과 여부 안내 마감일(8월 6일 15:30)까지 주관자의 수동 심사 내용이 DM으로 발송되지 않을 경우, 본 AI 심사 결과가 최종으로 합격/확정 간주됩니다.</p>
+                                <p class="text-cyan-300">현재 AI 심사 결과는 거의 변치 않으니, 작업을 미리 시작하시거나 완성된 버스 차량 스크린샷을 지금 편하게 제출해 주시기 바랍니다.</p>
+                            </div>
+                        </div>
+                    `;
+                    btnSubmit.innerHTML = `<i class="fa-solid fa-check mr-2"></i> 제출 완료됨`;
                     document.getElementById('applyForm').reset();
                 } else {
                     throw new Error(result.error || '제출 도중 오류가 발생했습니다.');
