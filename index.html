@@ -306,69 +306,95 @@
     </div>
 
     <script>
-        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxxUKLSrj3gAn2t0yGMbb2wOlPspRdGd63fJ7rMYmHX6hvUns_21VJzqWzdFT-DSsNf/exec";
+        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw2aZrIfCqa9JAnJXkSw6ojOSZDPkp-K621TLsEg4CThOHgZlg_oq9ElynRo1qxNkmx/exec";
         const DISCORD_CLIENT_ID = "1476089479709069426";
         const REDIRECT_URI = window.location.origin + window.location.pathname;
+
+        let authMessageListener = null;
 
         window.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             const code = urlParams.get('code');
             if (code) {
-                handleDiscordCallback(code);
+                console.log('Direct OAuth callback detected');
             }
         });
 
         function loginWithDiscord() {
+            const btn = document.getElementById('btnDiscordLogin');
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> 인증 창 연결 중...`;
+            btn.disabled = true;
+
             const scope = encodeURIComponent('identify');
             const redirect = encodeURIComponent(REDIRECT_URI);
             const discordAuthUrl = `https://discord.com/api/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${redirect}&response_type=code&scope=${scope}`;
-            window.location.href = discordAuthUrl;
-        }
-
-        async function handleDiscordCallback(code) {
-            const btn = document.getElementById('btnDiscordLogin');
-            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> 인증 처리 중...`;
-            btn.disabled = true;
-
-            try {
-                const response = await fetch(`${GAS_WEB_APP_URL}?action=discordAuth&code=${encodeURI(code)}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`);
-                const data = await response.json();
-
-                if (data.success && data.user) {
-                    document.getElementById('discordUsername').value = data.user.username;
-                    document.getElementById('discordUserId').value = data.user.id;
-                    
-                    document.getElementById('discordNameDisplay').innerText = data.user.username;
-                    document.getElementById('discordIdDisplay').innerText = `ID: ${data.user.id}`;
-                    
-                    if (data.user.avatar) {
-                        const avatarUrl = `https://cdn.discordapp.com/avatars/${data.user.id}/${data.user.avatar}.png`;
-                        document.getElementById('discordAvatar').innerHTML = `<img src="${avatarUrl}" class="w-full h-full rounded-full object-cover">`;
-                    }
-
-                    btn.className = "px-4 py-2 bg-emerald-600/80 text-white text-xs font-bold rounded-xl flex items-center gap-1 cursor-default";
-                    btn.innerHTML = `<i class="fa-solid fa-check-circle"></i> 인증 완료`;
-                    btn.onclick = null;
-
-                    window.history.replaceState({}, document.title, window.location.pathname);
-
-                    // 기존 제출 기록 확인 (새로 추가된 기능)
-                    checkExistingSubmission(data.user.id);
-
-                } else {
-                    alert('디스코드 인증 실패: ' + (data.error || '오류 발생'));
-                    btn.innerHTML = `<i class="fa-brands fa-discord"></i> Discord 로그인`;
-                    btn.disabled = false;
-                }
-            } catch (err) {
-                console.error(err);
-                alert('디스코드 인증 중 네트워크 오류가 발생했습니다.');
+            
+            const popup = window.open(discordAuthUrl, 'DiscordAuth', 'width=600,height=800,left=' + (screen.width/2-300) + ',top=' + (screen.height/2-400));
+            
+            if (!popup) {
+                alert('팝업이 차단되었습니다. 브라우저에서 팝업 허용을 설정해주세요.');
                 btn.innerHTML = `<i class="fa-brands fa-discord"></i> Discord 로그인`;
                 btn.disabled = false;
+                return;
+            }
+
+            authMessageListener = function(event) {
+                if (event.data && event.data.success && event.data.user) {
+                    processDiscordAuth(event.data);
+                    cleanupAuthListener();
+                } else if (event.data && event.data.error) {
+                    alert('디스코드 인증 실패: ' + event.data.error);
+                    btn.innerHTML = `<i class="fa-brands fa-discord"></i> Discord 로그인`;
+                    btn.disabled = false;
+                    cleanupAuthListener();
+                }
+            };
+
+            window.addEventListener('message', authMessageListener);
+
+            const checkPopup = setInterval(() => {
+                if (popup.closed) {
+                    clearInterval(checkPopup);
+                    cleanupAuthListener();
+                    if (btn.disabled && btn.innerHTML.includes('인증 창 연결 중')) {
+                        btn.innerHTML = `<i class="fa-brands fa-discord"></i> Discord 로그인`;
+                        btn.disabled = false;
+                    }
+                }
+            }, 500);
+        }
+
+        function cleanupAuthListener() {
+            if (authMessageListener) {
+                window.removeEventListener('message', authMessageListener);
+                authMessageListener = null;
             }
         }
 
-        // 기존 제출자 확인 함수 (새로 추가)
+        function processDiscordAuth(data) {
+            const btn = document.getElementById('btnDiscordLogin');
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> 기존 기록 확인 중...`;
+            
+            document.getElementById('discordUsername').value = data.user.username;
+            document.getElementById('discordUserId').value = data.user.id;
+            
+            document.getElementById('discordNameDisplay').innerText = data.user.username;
+            document.getElementById('discordIdDisplay').innerText = `ID: ${data.user.id}`;
+            
+            if (data.user.avatar) {
+                const avatarUrl = `https://cdn.discordapp.com/avatars/${data.user.id}/${data.user.avatar}.png`;
+                document.getElementById('discordAvatar').innerHTML = `<img src="${avatarUrl}" class="w-full h-full rounded-full object-cover">`;
+            }
+
+            btn.className = "px-4 py-2 bg-emerald-600/80 text-white text-xs font-bold rounded-xl flex items-center gap-1 cursor-default";
+            btn.innerHTML = `<i class="fa-solid fa-check-circle"></i> 인증 완료`;
+            btn.onclick = null;
+
+            window.history.replaceState({}, document.title, window.location.pathname);
+
+            checkExistingSubmission(data.user.id);
+        }
+
         async function checkExistingSubmission(discordUserId) {
             try {
                 const checkRes = await fetch(GAS_WEB_APP_URL, {
@@ -386,7 +412,6 @@
             }
         }
 
-        // 기존 제출자 결과 카드 표시 (새로 추가)
         function displayExistingResult(checkData) {
             const d = checkData.rowData || {};
             const humanChecked = checkData.humanChecked;
@@ -396,10 +421,12 @@
             const statusClass = status === "합격" ? "bg-emerald-900/80 text-emerald-300 border-emerald-500/50" : "bg-rose-900/80 text-rose-300 border-rose-500/50";
             const humanCheckHtml = humanChecked 
                 ? `<span class="text-emerald-400 font-bold"><i class="fa-solid fa-user-check"></i> 주관자 최종 검토 완료</span>`
-                : `<span class="text-amber-400 font-bold"><i class="fa-solid fa-user-clock"></i> 아직 주관자 수동 심사 중</span>`;
+                : `<span class="text-amber-400 font-bold"><i class="fa-solid fa-user-clock"></i> 아직 주관자 수동 심사 중 (별도 연락 없으면 AI 결과 확정)</span>`;
 
             const resultHtml = `
-                <div class="bg-gradient-to-r from-slate-900/95 via-purple-950/90 to-slate-900/95 border-2 border-amber-400/50 rounded-3xl p-6 sm:p-8 shadow-2xl mt-6">
+                <div class="bg-gradient-to-r from-slate-900/95 via-purple-950/90 to-slate-900/95 border-2 border-amber-400/50 rounded-3xl p-6 sm:p-8 shadow-2xl mt-6 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-400 via-purple-400 to-cyan-400"></div>
+                    
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 mb-5">
                         <h2 class="text-xl sm:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-purple-300 flex items-center gap-2">
                             <i class="fa-solid fa-clipboard-check text-amber-400"></i> 기존 제출 기록 확인됨
@@ -432,9 +459,14 @@
                             <p class="text-slate-200 leading-relaxed">${d.aiSummary || "내용 요약이 등록되지 않았습니다."}</p>
                         </div>
                         <div class="bg-slate-950/60 border border-slate-700 rounded-xl p-4">
-                            <h4 class="font-bold text-amber-300 mb-1 flex items-center gap-2"><i class="fa-solid fa-pen-to-square"></i> AI 심사평</h4>
+                            <h4 class="font-bold text-amber-300 mb-1 flex items-center gap-2"><i class="fa-solid fa-pen-to-square"></i> AI 심사평 / 피드백</h4>
                             <p class="text-slate-200 leading-relaxed">${d.aiFeedback || "심사평 정보가 없습니다."}</p>
                         </div>
+                    </div>
+
+                    <div class="mt-5 pt-4 border-t border-slate-700/60 text-xs text-slate-500 flex justify-between items-center">
+                        <span>제출 기록은 시트에 안전하게 저장되어 있습니다.</span>
+                        <span>문의: Discord bearman.entp</span>
                     </div>
                 </div>
             `;
@@ -445,7 +477,7 @@
             const btnSubmit = document.getElementById('btnSubmit');
             btnSubmit.innerText = "이미 제출된 계정입니다 (새 제출 불가)";
             btnSubmit.disabled = true;
-            btnSubmit.classList.remove("animate-pulse-glow");
+            btnSubmit.classList.remove("animate-pulse-glow", "bg-gradient-to-r", "from-purple-600", "via-pink-600", "to-amber-500");
             btnSubmit.classList.add("bg-slate-700", "cursor-not-allowed");
         }
 
