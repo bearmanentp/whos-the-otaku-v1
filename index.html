@@ -264,9 +264,9 @@
                     <label class="block text-sm font-medium text-slate-300 mb-1">
                         시승식 코스 루트 설명 <span class="text-rose-400">*</span>
                     </label>
-                    <textarea id="testDriveRoute" name="testDriveRoute" rows="3" required placeholder="시승식 때 운행할 코스 및 루트에 대해 설명해주세요." class="w-full p-3.5 rounded-xl glass-input"></textarea>
+                    <textarea id="testDriveRoute" name="testDriveRoute" rows="3" required placeholder="기점 출발 ➔ 회차지 경유 ➔ 무조건 종점은 동천체육관으로 끝나는 코스 루트를 작성해 주세요." class="w-full p-3.5 rounded-xl glass-input"></textarea>
                     <p class="text-xs text-emerald-400 mt-1 flex items-center gap-1">
-                        <i class="fa-solid fa-circle-info"></i> 시승식은 <strong>울산 버스 운전 시뮬레이터 본맵</strong>에서 진행됩니다. (AI 심사 시 창의성, 로망, 관광 가치 평가)
+                        <i class="fa-solid fa-circle-info"></i> 시승식은 <strong>울산 버스 운전 시뮬레이터 본맵</strong>에서 진행되며, <strong>기점에서 출발하여 회차 후 무조건 종점은 동천체육관</strong>이어야 합니다. (AI 심사 반영)
                     </p>
                 </div>
             </div>
@@ -277,10 +277,10 @@
                     <i class="fa-solid fa-images text-pink-400"></i> 5. 작업 포트폴리오 및 출전 차량 제출
                 </h2>
                 <p class="text-xs text-slate-400 mb-4">
-                    이전에 작업하셨던 버스 꾸미기 포트폴리오 이미지와 이미 완성/제작 중인 출전 버스 차량 이미지를 첨부해주세요. (AI 가산점 및 사전 심사 반영)
+                    이전에 작업하셨던 버스 꾸미기 포트폴리오 이미지와 이미 완성/제작 중인 출전 버스 차량 이미지를 첨부해주세요. (AI 가산점 및 사전 심사 반영, <strong>GIF 파일 업로드 불가</strong>)
                 </p>
 
-                <!-- 기존 작업 경험 여부 톡글 -->
+                <!-- 기존 작업 경험 여부 토글 -->
                 <div class="flex items-center gap-3 bg-slate-900/60 p-3.5 rounded-xl border border-slate-800 mb-3">
                     <input type="checkbox" id="hasPreviousWork" name="hasPreviousWork" class="w-4 h-4 rounded text-purple-600 focus:ring-purple-500 bg-slate-800 border-slate-700" checked>
                     <label for="hasPreviousWork" class="text-sm text-slate-300">이전에 버스를 꾸며본 경험이 있거나, 이미 출전시킬 차량이 준비되어 있습니다.</label>
@@ -291,10 +291,10 @@
                     <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-700/80 space-y-3">
                         <div class="flex items-center justify-between">
                             <label class="block text-sm font-bold text-slate-200">포트폴리오 1: 이전 버스 작업물</label>
-                            <span class="text-[10px] bg-purple-900/80 text-purple-300 px-2 py-0.5 rounded-full">이전 작업 경험</span>
+                            <span class="text-[10px] bg-purple-900/80 text-purple-300 px-2 py-0.5 rounded-full">이전 작업 경험 (GIF 불가)</span>
                         </div>
-                        <p class="text-xs text-slate-400">과거에 제작했거나 꾸몄던 버스 작품의 스크린샷 (가산점 부여)</p>
-                        <input type="file" id="portfolio1File" accept="image/*" onchange="previewImage(this, 'preview1')" class="text-xs text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-purple-900 file:text-purple-200 hover:file:bg-purple-800">
+                        <p class="text-xs text-slate-400">과거에 제작했거나 꾸몄던 버스 작품의 스크린샷 (가산점 부여, PNG/JPG/WEBP만 지원)</p>
+                        <input type="file" id="portfolio1File" accept="image/png, image/jpeg, image/jpg, image/webp" onchange="previewImage(this, 'preview1')" class="text-xs text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-purple-900 file:text-purple-200 hover:file:bg-purple-800">
                         <div class="w-full h-40 bg-slate-950/60 rounded-xl border border-dashed border-slate-700 flex items-center justify-center overflow-hidden">
                             <img id="preview1" class="hidden w-full h-full object-cover">
                             <span id="preview1Text" class="text-xs text-slate-500">이미지 미선택</span>
@@ -305,10 +305,10 @@
                     <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-700/80 space-y-3">
                         <div class="flex items-center justify-between">
                             <label class="block text-sm font-bold text-amber-300">포트폴리오 2: 이번 출전 버스 차량</label>
-                            <span class="text-[10px] bg-amber-900/80 text-amber-300 px-2 py-0.5 rounded-full">이미 준비된 경우</span>
+                            <span class="text-[10px] bg-amber-900/80 text-amber-300 px-2 py-0.5 rounded-full">이미 준비된 경우 (GIF 불가)</span>
                         </div>
-                        <p class="text-xs text-slate-400">이번 대회에 출전시킬 완성이 되었거나 제작 중인 버스 스크린샷</p>
-                        <input type="file" id="portfolio2File" accept="image/*" onchange="previewImage(this, 'preview2')" class="text-xs text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-amber-900 file:text-amber-200 hover:file:bg-amber-800">
+                        <p class="text-xs text-slate-400">이번 대회에 출전시킬 완성이 되었거나 제작 중인 버스 스크린샷 (PNG/JPG/WEBP만 지원)</p>
+                        <input type="file" id="portfolio2File" accept="image/png, image/jpeg, image/jpg, image/webp" onchange="previewImage(this, 'preview2')" class="text-xs text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-amber-900 file:text-amber-200 hover:file:bg-amber-800">
                         <div class="w-full h-40 bg-slate-950/60 rounded-xl border border-dashed border-slate-700 flex items-center justify-center overflow-hidden">
                             <img id="preview2" class="hidden w-full h-full object-cover">
                             <span id="preview2Text" class="text-xs text-slate-500">이미지 미선택</span>
@@ -333,7 +333,7 @@
     <!-- 스크립트 로직 -->
     <script>
         // 백엔드 Google Apps Script Web App URL (배포 후 교체)
-        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz0ZPQRR418Fc3UxLJ_FA94ce660YEYoMU1FYtUhoB79R4aUkYjm3aHh2740jFkfVYy/exec";
+        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx86GQHsEmDyLC6Ljsu5it8cmC84yCD7pTEjIfe6D3SaEsXoCWGwRHp-uat2POIH8c/exec";
         
         // Discord OAuth2 Config
         const DISCORD_CLIENT_ID = "1476089479709069426";
@@ -440,19 +440,31 @@
             container.appendChild(newInput);
         }
 
-        // 이미지 파일 프리뷰
+        // 이미지 파일 프리뷰 (GIF 파일 차단 검증 추가)
         function previewImage(input, previewId) {
             const preview = document.getElementById(previewId);
             const text = document.getElementById(previewId + 'Text');
             
             if (input.files && input.files[0]) {
+                const file = input.files[0];
+                
+                // GIF 파일 유형 검사 및 차단
+                if (file.type === "image/gif" || file.name.toLowerCase().endsWith(".gif")) {
+                    alert("GIF 애니메이션 파일은 업로드할 수 없습니다.\nPNG, JPG, WEBP 형식의 이미지를 선택해 주세요.");
+                    input.value = "";
+                    preview.src = "";
+                    preview.classList.add('hidden');
+                    text.classList.remove('hidden');
+                    return;
+                }
+
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     preview.src = e.target.result;
                     preview.classList.remove('hidden');
                     text.classList.add('hidden');
                 }
-                reader.readAsDataURL(input.files[0]);
+                reader.readAsDataURL(file);
             }
         }
 
