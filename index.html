@@ -281,9 +281,12 @@
                         시승식 코스 루트 설명 <span class="text-rose-400">*</span>
                     </label>
                     <textarea id="testDriveRoute" name="testDriveRoute" rows="3" required placeholder="기점 출발 ➔ 회차지 경유 ➔ 무조건 종점은 동천체육관으로 끝나는 코스 루트를 작성해 주세요." class="w-full p-3.5 rounded-xl glass-input"></textarea>
-                    <p class="text-xs text-rose-400 mt-1 flex items-center gap-1 font-bold">
-                        <i class="fa-solid fa-triangle-exclamation"></i> <strong>필수 규정:</strong> 시승식 코스의 종점은 <strong>무조건 '동천체육관'</strong>이어야 합니다. 종점이 '동천체육관'으로 지정되지 않은 경우 <strong>AI 심사 시 즉시 탈락 (0점 및 불합격)</strong> 처리됩니다.
-                    </p>
+                    
+                    <!-- 필수 규정 안내 문구 수정 영역 (flex 구조 개선) -->
+                    <div class="text-xs text-rose-400 mt-2 font-bold leading-relaxed flex items-start gap-1.5">
+                        <i class="fa-solid fa-triangle-exclamation mt-0.5 shrink-0 text-sm"></i>
+                        <span><strong>필수 규정:</strong> 시승식 코스의 종점은 <strong>무조건 '동천체육관'</strong>이어야 합니다. 종점이 '동천체육관'으로 지정되지 않은 경우 <strong>AI 심사 시 즉시 탈락 (0점 및 불합격)</strong> 처리됩니다.</span>
+                    </div>
                 </div>
             </div>
 
